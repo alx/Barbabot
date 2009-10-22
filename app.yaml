@@ -13,6 +13,7 @@ handlers:
   script: controllers/xmpp.py
 - url: /(transcript)/.*
   script: controllers/\1.py
+  login: admin
 - url: /(task)/.*
   script: controllers/\1.py
   login: admin
