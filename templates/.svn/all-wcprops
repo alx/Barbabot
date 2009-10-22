@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/118/trunk/multi-chat/templates
+END
+footer.html
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/116/trunk/multi-chat/templates/footer.html
+END
+transcript-navigation.html
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/116/trunk/multi-chat/templates/transcript-navigation.html
+END
+index.html
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/118/trunk/multi-chat/templates/index.html
+END
+header.html
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/116/trunk/multi-chat/templates/header.html
+END
+transcript.html
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/118/trunk/multi-chat/templates/transcript.html
+END
+channels.html
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/118/trunk/multi-chat/templates/channels.html
+END

@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/116/trunk/multi-chat/models
+END
+channel.py
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/116/trunk/multi-chat/models/channel.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/116/trunk/multi-chat/models/__init__.py
+END
+log.py
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/116/trunk/multi-chat/models/log.py
+END
+person.py
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/116/trunk/multi-chat/models/person.py
+END

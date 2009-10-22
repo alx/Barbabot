@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/120/trunk/multi-chat/controllers
+END
+transcript.py
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/116/trunk/multi-chat/controllers/transcript.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/116/trunk/multi-chat/controllers/__init__.py
+END
+task.py
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/119/trunk/multi-chat/controllers/task.py
+END
+xmpp.py
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/120/trunk/multi-chat/controllers/xmpp.py
+END
+index.py
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/116/trunk/multi-chat/controllers/index.py
+END
