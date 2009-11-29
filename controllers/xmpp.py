@@ -12,8 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import urllib2
 import logging
 import re
+import urllib2
 import wsgiref.handlers
 from google.appengine.api import xmpp
 from google.appengine.api.labs import taskqueue
@@ -210,8 +212,33 @@ class XmppController(xmpp_handlers.CommandHandler):
     if channel:
       self.Broadcast(channel, u'%s <%s> %s' % (channel, self.person, msg.body))
       self.Log(channel, msg.body)
+
+			# Pattern for fully-qualified URLs:
+			url_pattern = re.compile(r'^(http://[^+]*?)')
+			tags = re.compile(r'(@\W+)')
+			link = url_pattern.match(msg.body)
+			
+			if link:
+				super(XmppController, self).post_to_delicious(link, msg)
+
     else:
       msg.reply('* You need to be in a channel to chat.')
+
+	def post_to_delicious(self, link, msg):
+
+		tags = re.compile(r'(@\W+)')
+		parameters = 'url=' + tags.sub("", msg.body) 
+		parameters += '&description=by%20' + msg.sender
+		parameters += '&tags=' + tags.match(msg.body).groups().join("%20")
+
+		authinfo = urllib2.HTTPBasicAuthHandler()
+		authinfo.add_password('del.icio.us API',
+		'https://api.del.icio.us',
+		'<username>',
+		'<pwd>')
+
+		urllib2.install_opener(urllib2.build_opener(authin fo))
+		urllib2.urlopen('https://api.del.icio.us/v1/posts/add?' + parameters)
 
   def message_received(self, msg):
     """Handle all messages; overrides CommandHandlerMixin."""
@@ -227,7 +254,8 @@ class XmppController(xmpp_handlers.CommandHandler):
       return
 
     super(XmppController, self).message_received(msg)
-
+	
+	
 
 def main():
   app = webapp.WSGIApplication([
