@@ -40,19 +40,17 @@ end
 
 @messenger = Jabber::Simple.new(config['account']['email'], config['account']['password'])
 
-@irc = BarbabotIrc.new("barbabot", "irc.freenode.net", 6667, "Barbabot")
-@irc.connect
+# @irc = BarbabotIrc.new("barbabot", "irc.freenode.net", 6667, "Barbabot")
+# @irc.connect
 
 while true
   
-  deliveries = {}
-  
-  unless @irc.messages.empty?
-    User.all(:im_name.not => msg.from.to_s, :is_active => true).each do |user|
-      @messenger.deliver(user.im_name, @irc.messages)
-    end
-    @irc.messages = ""
-  end
+  # unless @irc.messages.empty?
+  #   User.all(:im_name.not => msg.from.to_s, :is_active => true).each do |user|
+  #     @messenger.deliver(user.im_name, @irc.messages)
+  #   end
+  #   @irc.messages = ""
+  # end
   
   @messenger.received_messages do |msg|
     # New user has come to say something, register him
@@ -82,7 +80,7 @@ while true
       User.all(:im_name.not => msg.from.to_s, :is_active => true).each do |user|
         @messenger.deliver(user.im_name, "#{msg.from.to_s.split("@").first}: #{msg.body}")
       end
-      @irc.deliver("#{msg.from.to_s.split("/").first}: #{msg.body}")
+      # @irc.deliver("#{msg.from.to_s.split("/").first}: #{msg.body}")
     end
   end
   sleep 1
