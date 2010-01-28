@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'xmpp4r-simple'
+require 'daemons'
 
 gem 'dm-core'
 gem 'dm-timestamps'
@@ -7,6 +8,7 @@ gem 'dm-timestamps'
 require 'dm-core'
 require 'dm-timestamps'
 
+# Initialize the app while we're not a daemon
 DataMapper.setup(:default, "sqlite3:///#{Dir.pwd}/barbabot.db")
 
 config = YAML.load_file('barbabot.yaml')
@@ -17,6 +19,9 @@ class User
   property :id, Serial
   property :im_name, String
 end
+
+# Become a daemon
+Daemons.daemonize
 
 while true
   messenger.received_messages do |msg|
