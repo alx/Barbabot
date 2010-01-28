@@ -1,6 +1,5 @@
 require 'rubygems'
 require 'xmpp4r-simple'
-require 'daemons'
 
 gem 'dm-core'
 gem 'dm-timestamps'
@@ -8,7 +7,6 @@ gem 'dm-timestamps'
 require 'dm-core'
 require 'dm-timestamps'
 
-# Initialize the app while we're not a daemon
 DataMapper.setup(:default, "sqlite3:///#{Dir.pwd}/barbabot.db")
 
 config = YAML.load_file('barbabot.yaml')
@@ -20,10 +18,7 @@ class User
   property :im_name, String
 end
 
-# Become a daemon
-Daemons.daemonize
-
-loop {
+while true
   messenger.received_messages do |msg|
     unless user = User.first(:im_name => msg.from.to_s)
       User.create(:im_name => msg.from.to_s)
@@ -35,4 +30,4 @@ loop {
     end
   end  
   sleep 1
-}
+end
