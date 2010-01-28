@@ -23,7 +23,7 @@ end
 # Become a daemon
 Daemons.daemonize
 
-loop do
+loop {
   messenger.received_messages do |msg|
     unless user = User.first(:im_name => msg.from.to_s)
       User.create(:im_name => msg.from.to_s)
@@ -35,4 +35,4 @@ loop do
     end
   end  
   sleep 1
-end
+}
