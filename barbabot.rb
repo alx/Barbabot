@@ -25,7 +25,7 @@ while true
       messenger.add(msg.from)
       messenger.deliver(msg.from, "Bienvenue sur barbabot")
     end
-    User.all do |user|
+    User.all.each do |user|
       p "deliver: #{user.im_name} - #{msg.from.to_s.split("@").first}: #{msg.body}"
       messenger.deliver(user.im_name, "#{msg.from.to_s.split("@").first}: #{msg.body}") if user.im_name != msg.from.to_s
     end
