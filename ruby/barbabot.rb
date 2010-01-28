@@ -12,7 +12,7 @@ class User
   include DataMapper::Resource
   property :id, Serial
   property :im_name, String
-  property :activated, Boolean, :default => true
+  property :is_active, Boolean, :default => true
 end
 
 while true
@@ -28,16 +28,18 @@ while true
       @messenger.deliver(msg.from, "/help\t\tCette aide\n/names\t\tListe des membres actifs\n/up\t\tActiver le chat (par defaut)\n/down\t\tDésactiver le chat")
     when /^\/names$/i
       names = "Utilisateurs actifs:\n"
-      User.all(:im_name.not => msg.from.to_s, :activated => true).each{|u| names << "#{user.im_name}\n"}
+      User.all(:im_name.not => msg.from.to_s, :is_active => true).each{|u| names += "\t- #{user.im_name}\n"}
       @messenger.deliver(msg.from, names)
     when /^\/up$/i
-      user.update(:activated => true)
+      user.is_active = true
+      user.save
       @messenger.deliver(msg.from, "Chat activé")
     when /^\/down$/i
-      user.update(:activated => false)
+      user.is_active = false
+      user.save
       @messenger.deliver(msg.from, "Chat désactivé")
     else
-      User.all(:im_name.not => msg.from.to_s, :activated => true).each do |user|
+      User.all(:im_name.not => msg.from.to_s, :is_active => true).each do |user|
         @messenger.deliver(user.im_name, "#{msg.from.to_s.split("@").first}: #{msg.body}")
       end
     end
