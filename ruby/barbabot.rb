@@ -25,17 +25,16 @@ while true
     
     case msg.body
     when /^\/help$/i
-      @messenger.deliver(msg.from, "/help Cette aide\n/names Liste des membres actifs\n/up Activer le chat (par defaut)\n/down Désactiver le chat")
+      @messenger.deliver(msg.from, "/help\t\tCette aide\n/names\t\tListe des membres actifs\n/up\t\tActiver le chat (par defaut)\n/down\t\tDésactiver le chat")
     when /^\/names$/i
-      user.update :activated => true
       names = "Utilisateurs actifs:\n"
       User.all(:im_name.not => msg.from.to_s, :activated => true).each{|u| names << "#{user.im_name}\n"}
       @messenger.deliver(msg.from, names)
     when /^\/up$/i
-      user.update :activated => true
+      user.update(:activated => true)
       @messenger.deliver(msg.from, "Chat activé")
     when /^\/down$/i
-      user.update :activated => false
+      user.update(:activated => false)
       @messenger.deliver(msg.from, "Chat désactivé")
     else
       User.all(:im_name.not => msg.from.to_s, :activated => true).each do |user|
