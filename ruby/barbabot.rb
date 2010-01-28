@@ -16,7 +16,7 @@ class User
 end
 
 pid = fork do
-  RobustThread.loop( :seconds => 1, :label => "Processing messages..." )
+  RobustThread.loop( :seconds => 1, :label => "Processing messages..." ) do
     messenger.received_messages do |msg|
       unless user = User.first(:im_name => msg.from.to_s)
         User.create(:im_name => msg.from.to_s)
