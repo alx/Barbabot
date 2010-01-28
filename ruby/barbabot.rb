@@ -28,7 +28,7 @@ while true
       @messenger.deliver(msg.from, "/help\t\tCette aide\n/names\t\tListe des membres actifs\n/up\t\tActiver le chat (par defaut)\n/down\t\tDésactiver le chat")
     when /^\/names$/i
       names = "Utilisateurs actifs:\n"
-      User.all(:im_name.not => msg.from.to_s, :is_active => true).each{|u| names += "\t- #{u.im_name}\n"}
+      User.all(:im_name.not => msg.from.to_s, :is_active => true).each{|u| names += "\t- #{u.im_name.split("/").first}\n"}
       @messenger.deliver(msg.from, names)
     when /^\/up$/i
       user.is_active = true
