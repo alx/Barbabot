@@ -1,11 +1,8 @@
 require 'rubygems'
 require 'xmpp4r-simple'
-
-gem 'dm-core'
-gem 'dm-timestamps'
-
 require 'dm-core'
 require 'dm-timestamps'
+require 'robustthread'
 
 DataMapper.setup(:default, "sqlite3:///#{Dir.pwd}/barbabot.db")
 
@@ -18,7 +15,7 @@ class User
   property :im_name, String
 end
 
-while true
+RobustThread.loop(:seconds => 1) do
   messenger.received_messages do |msg|
     unless user = User.first(:im_name => msg.from.to_s)
       User.create(:im_name => msg.from.to_s)
@@ -28,6 +25,5 @@ while true
     User.all.each do |user|
       messenger.deliver(user.im_name, "#{msg.from.to_s.split("@").first}: #{msg.body}") if user.im_name != msg.from.to_s
     end
-  end  
-  sleep 1
+  end
 end
