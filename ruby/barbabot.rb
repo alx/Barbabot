@@ -126,7 +126,7 @@ while true
       @messenger.deliver(msg.from, "Url envoyée sur http://bookmark.tetalab.org")
     else
       User.all(:im_name.not => msg_from, :is_active => true).each do |user|
-        @messenger.deliver(user.im_name, "#{msg.from.to_s.split("@").first}: #{msg.body}")
+        @messenger.deliver(user.im_name, "#{msg_from.split("@").first}: #{msg.body}")
       end
       # @irc.deliver("#{msg.from.to_s.split("/").first}: #{msg.body}")
     end
