@@ -3,14 +3,8 @@ require 'xmpp4r-simple'
 
 require 'net/http'
 
-require 'atom/entry' # sudo gem install atom-tools
-require 'atom/collection'
-
 require 'dm-core'
 require 'dm-timestamps'
-
-gem 'rif'
-require 'rif/bot'
 
 DataMapper.setup(:default, "sqlite3:///#{Dir.pwd}/barbabot.db")
 
@@ -23,76 +17,9 @@ class User
   property :is_active, Boolean, :default => true
 end
 
-class Pressmark
-  
-  def initialize(config = {})
-    @blog_uri = config["uri"]
-    @username = config["username"]
-    @password = config["password"]
-  end
-  
-  def post(url, author, description = nil)
-    entry = Atom::Entry.new
-    entry.title = url
-    entry.updated!
-
-    author = Atom::Author.new
-    author.name = author.split("@").first
-    author.email = author.split("/").first
-    author.uri = @bloguri
-    entry.authors << author
-    
-    entry.content = description
-    entry.content["type"] = 'html'
-
-    h = Atom::HTTP.new
-    h.user = @username
-    h.pass = @password
-    h.always_auth = :basic
-
-    c = Atom::Collection.new(@bloguri + "/wp-app.php/posts", h)
-    c.post! entry
-  end
-  
-end
-
-class BarbabotIrc < RIF::Bot
-  
-  def initialize(nick, server, port, name)
-    super
-    @messages = ""
-  end
-  
-  def on_endofmotd(event)
-    join("#tetalab")
-  end
-  
-  def on_message(event)
-    @messages += "<#{event.nick}>: #{event.message}\n"
-  end
-  
-  def deliver(msg)
-    send_message("#tetalab", msg)
-  end
-end
-
 @messenger = Jabber::Simple.new(config['account']['email'], config['account']['password'])
 
-if config['pressmark']
-  @pressmark = Pressmark.new(config['pressmark'])
-end
-
-# @irc = BarbabotIrc.new("barbabot", "irc.freenode.net", 6667, "Barbabot")
-# @irc.connect
-
 while true
-  
-  # unless @irc.messages.empty?
-  #   User.all(:im_name.not => msg.from.to_s, :is_active => true).each do |user|
-  #     @messenger.deliver(user.im_name, @irc.messages)
-  #   end
-  #   @irc.messages = ""
-  # end
   
   @messenger.received_messages do |msg|
     
@@ -121,9 +48,6 @@ while true
       user.is_active = false
       user.save
       @messenger.deliver(msg.from, "Chat désactivé")
-    when /^\/url\s(.*)\s(.*)$/i
-      @pressmark.post($1, msg_from, $2)
-      @messenger.deliver(msg.from, "Url envoyée sur http://bookmark.tetalab.org")
     else
       User.all(:im_name.not => msg_from, :is_active => true).each do |user|
         @messenger.deliver(user.im_name, "#{msg_from.split("@").first}: #{msg.body}")
