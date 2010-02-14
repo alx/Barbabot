@@ -48,6 +48,8 @@ while true
       user.is_active = false
       user.save
       @messenger.deliver(msg.from, "Chat désactivé")
+    when /^\/add$/i
+      @messenger.add(msg.body.split(" ").last)
     else
       User.all(:im_name.not => msg_from, :is_active => true).each do |user|
         @messenger.deliver(user.im_name, "#{msg_from.split("@").first}: #{msg.body}")
